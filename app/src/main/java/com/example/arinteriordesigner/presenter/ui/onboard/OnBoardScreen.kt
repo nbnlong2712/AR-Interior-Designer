@@ -1,35 +1,30 @@
 package com.example.arinteriordesigner.presenter.ui.onboard
 
+import androidx.annotation.ColorRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.arinteriordesigner.R
 import kotlinx.coroutines.launch
 
@@ -41,52 +36,50 @@ fun OnBoardScreen(
     val state =
         rememberPagerState(pageCount = { 3 })
     val scope = rememberCoroutineScope();
-    Column(modifier = Modifier.fillMaxSize()) {
-        HorizontalPager(
-            state = state,
-            modifier = Modifier.weight(4f)
-        ) { page ->
-            OnBoardPageScreen(page = pages[page])
-        }
-        Spacer(modifier = Modifier.height(28.dp))
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            PageIndicator(3, state.currentPage)
-            Row(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(pages.get(state.currentPage).backgroundColor))
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            HorizontalPager(
+                state = state,
+                modifier = Modifier.weight(4f)
+            ) { page ->
+                OnBoardPageScreen(page = pages[page])
+            }
+            Spacer(modifier = Modifier.height(28.dp))
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                    .weight(1f)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                if (state.currentPage < pages.lastIndex) {
-                    TextButton(
-                        onClick = { onFinish() }
-                    ) {
-                        Text(text = "Skip")
-                    }
-                    TextButton(
-                        onClick = {
-                            scope.launch {
-                                state.animateScrollToPage(state.currentPage + 1)
-                            }
-                        }
-                    ) {
-                        Text(text = "Next")
-                    }
-                } else {
-                    TextButton(
-                        onClick = { onFinish() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentWidth(align = Alignment.CenterHorizontally)
-                    ) {
-                        Text(text = "Get started!")
+                PageIndicator(3, state.currentPage)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, top = 12.dp, bottom = 24.dp, end = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    if (state.currentPage < pages.lastIndex) {
+                        OnBoardButton(
+                            onClick = {
+                                scope.launch {
+                                    state.animateScrollToPage(state.currentPage + 1)
+                                }
+                            },
+                            backgroundColor = pages.get(state.currentPage).buttonColor,
+                            text = "Next"
+                        )
+                    } else {
+                        OnBoardButton(
+                            onClick = { onFinish() },
+                            backgroundColor = pages.get(state.currentPage).buttonColor,
+                            text = "Get Started!"
+                        )
                     }
                 }
             }
@@ -113,5 +106,20 @@ fun PageIndicator(pageCount: Int, currentIndex: Int, modifier: Modifier = Modifi
                 )
             }
         }
+    }
+}
+
+@Composable
+fun OnBoardButton(
+    onClick: () -> Unit, @ColorRes backgroundColor: Int, text: String
+) {
+    FloatingActionButton(
+        onClick = { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 14.dp),
+        backgroundColor = colorResource(backgroundColor)
+    ) {
+        Text(text = text, fontSize = 16.sp)
     }
 }

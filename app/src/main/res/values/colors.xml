@@ -14,4 +14,21 @@
     <color name="grey_3">#646465</color>
     <color name="grey_4">#3a3b3b</color>
 
+    <color name="light_cyan_0">#e5fbfd</color>
+    <color name="light_cyan_1">#c7fbfd</color>
+    <color name="light_cyan_2">#abf3fd</color>
+    <color name="light_cyan_3">#87ecfd</color>
+    <color name="light_cyan_4">#5fd8fd</color>
+
+    <color name="azure_0">#ebfef9</color>
+    <color name="azure_1">#d2fdf6</color>
+    <color name="azure_2">#bcfef7</color>
+    <color name="azure_3">#9afbeb</color>
+    <color name="azure_4">#6ef3d8</color>
+
+    <color name="oldlace_0">#fff7e4</color>
+    <color name="oldlace_1">#fef0c7</color>
+    <color name="oldlace_2">#fdecae</color>
+    <color name="oldlace_3">#fee08d</color>
+    <color name="oldlace_4">#facd67</color>
 </resources>

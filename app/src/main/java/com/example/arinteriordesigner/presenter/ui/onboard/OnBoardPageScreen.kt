@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.MaterialTheme
@@ -47,7 +48,7 @@ fun OnBoardPageScreen(page: OnBoardPage) {
         Image(
             modifier = Modifier
                 .weight(3f)
-                .fillMaxWidth(1f),
+                .fillMaxWidth(1f).padding(all = 24.dp),
             painter = painterResource(page.image),
             contentDescription = null,
             contentScale = ContentScale.Fit
