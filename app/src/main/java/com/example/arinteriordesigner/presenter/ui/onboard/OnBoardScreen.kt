@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -23,10 +24,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.arinteriordesigner.R
 import kotlinx.coroutines.launch
+
+@Composable
+@PreviewScreenSizes
+fun OnBoardScreenPreview(
+    @PreviewParameter(OnBoardPagePreview::class) onBoardList: OnBoardPage
+) {
+    val list = mutableListOf<OnBoardPage>()
+    list.add(onBoardList)
+    OnBoardScreen(
+        pages = list,
+        onFinish = {})
+}
 
 @Composable
 fun OnBoardScreen(
@@ -62,7 +77,7 @@ fun OnBoardScreen(
                         .fillMaxWidth()
                         .padding(start = 10.dp, top = 12.dp, bottom = 24.dp, end = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     if (state.currentPage < pages.lastIndex) {
                         OnBoardButton(
@@ -116,6 +131,7 @@ fun OnBoardButton(
     FloatingActionButton(
         onClick = { onClick() },
         modifier = Modifier
+            .widthIn(max = 400.dp)
             .fillMaxWidth()
             .padding(all = 14.dp),
         backgroundColor = colorResource(backgroundColor)

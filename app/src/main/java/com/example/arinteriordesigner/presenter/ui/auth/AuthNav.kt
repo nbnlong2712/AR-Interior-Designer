@@ -1,5 +1,6 @@
 package com.example.arinteriordesigner.presenter.ui.auth
 
+import AuthScreen
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable

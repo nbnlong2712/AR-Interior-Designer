@@ -2,6 +2,7 @@ package com.example.arinteriordesigner.presenter.ui.onboard
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.example.arinteriordesigner.R
 
 data class OnBoardPage(
@@ -36,4 +37,16 @@ data class OnBoardPage(
             ),
         )
     }
+}
+
+class OnBoardPagePreview : PreviewParameterProvider<OnBoardPage> {
+    override val values: Sequence<OnBoardPage> = sequenceOf(
+        OnBoardPage(
+            "AI Interior Design",
+            "Scan your space with AR to capture the layout of your room",
+            R.drawable.pg_1,
+            R.color.light_cyan_0,
+            R.color.light_cyan_1
+        ),
+    )
 }

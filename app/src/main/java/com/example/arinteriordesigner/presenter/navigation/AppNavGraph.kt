@@ -2,14 +2,9 @@ package com.example.arinteriordesigner.presenter.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.arinteriordesigner.presenter.ui.auth.AuthScreen
 import com.example.arinteriordesigner.presenter.ui.auth.authNav
-import com.example.arinteriordesigner.presenter.ui.home.HomeScreen
 import com.example.arinteriordesigner.presenter.ui.home.homeNav
-import com.example.arinteriordesigner.presenter.ui.onboard.OnBoardPage
-import com.example.arinteriordesigner.presenter.ui.onboard.OnBoardScreen
 import com.example.arinteriordesigner.presenter.ui.onboard.onboardNav
 
 @Composable
