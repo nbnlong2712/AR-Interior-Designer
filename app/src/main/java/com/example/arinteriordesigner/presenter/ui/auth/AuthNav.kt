@@ -8,5 +8,5 @@ import com.example.arinteriordesigner.core.base.navigateScreen
 import com.example.arinteriordesigner.core.utils.Route
 
 fun NavGraphBuilder.authNav(controller: NavHostController) {
-    navigateScreen(route = Route.AUTH, content = { AuthScreen() })
+    navigateScreen(route = Route.AUTH, content = { AuthScreen(controller) })
 }

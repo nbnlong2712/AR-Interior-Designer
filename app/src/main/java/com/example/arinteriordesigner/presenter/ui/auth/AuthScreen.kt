@@ -1,4 +1,4 @@
-import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
@@ -26,10 +26,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -40,12 +45,35 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.arinteriordesigner.R
+import com.example.arinteriordesigner.core.utils.Route
+import com.example.arinteriordesigner.domain.viewmodel.AuthViewModel
 
 
 @Composable
 @PreviewScreenSizes
-fun AuthScreen() {
+fun AuthScreen(
+    navController: NavHostController = rememberNavController(),
+    viewModel: AuthViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+    val isLoginSuccess by viewModel.isLoginSuccess.collectAsState()
+    val message by viewModel.message.collectAsState()
+
+    LaunchedEffect(isLoginSuccess) {
+        if (isLoginSuccess) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            navController.navigate(Route.HOME) {
+                popUpTo(Route.AUTH) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -135,15 +163,19 @@ fun AuthScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .padding(all = 6.dp)
             )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1f),
+                    .weight(1f)
+                    .padding(start = 8.dp, end = 8.dp, top = 6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 LoginButton(
-                    onClick = {},
+                    onClick = {
+                        viewModel.signInWithGoogle(context)
+                    },
                     backgroundColor = R.color.white,
                     text = "Continue with Google",
                     icon = R.drawable.icon_google,
@@ -160,7 +192,7 @@ fun AuthScreen() {
                         .fillMaxWidth(0.75f)
                         .wrapContentWidth(Alignment.CenterHorizontally)
                         .wrapContentHeight(Alignment.CenterVertically)
-                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                        .padding(horizontal = 16.dp, vertical = 26.dp),
                     text = "By continuing, you agree to the Terms & Privacy Policy",
                     style = TextStyle(fontSize = 16.sp),
                     textAlign = TextAlign.Center
@@ -189,7 +221,7 @@ private fun LoginButton(
     @ColorRes textColor: Int = R.color.black,
 ) {
     OutlinedButton(
-        onClick = { onClick() },
+        onClick = onClick,
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .widthIn(max = 400.dp)

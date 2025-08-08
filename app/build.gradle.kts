@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
+    alias(libs.plugins.compose.compiler)
+    id("com.google.devtools.ksp") version "2.0.21-1.0.27"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -15,9 +19,22 @@ android {
         versionName = "0.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "facebook_app_id", "${project.findProperty("FACEBOOK_APP_ID") ?: ""}")
+        resValue(
+            "string",
+            "fb_login_protocol_scheme",
+            "${project.findProperty("FB_LOGIN_PROTOCOL_SCHEME") ?: ""}"
+        )
+        resValue(
+            "string",
+            "facebook_client_token",
+            "${project.findProperty("FACEBOOK_CLIENT_TOKEN") ?: ""}"
+        )
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     buildTypes {
         release {
@@ -73,4 +90,29 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.facebook.login)
+    implementation(libs.facebook.android.sdk)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ui.auth)
+    implementation(libs.play.services.auth.v2070)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
+    val room_version = "2.7.2"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-rxjava2:$room_version")
+    implementation("androidx.room:room-rxjava3:$room_version")
+    implementation("androidx.room:room-guava:$room_version")
+    testImplementation("androidx.room:room-testing:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 }

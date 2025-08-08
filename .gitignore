@@ -41,3 +41,5 @@ google-services.json
 
 # Screenshots, recordings
 captures/
+gradle.properties
+**/google-services.json
