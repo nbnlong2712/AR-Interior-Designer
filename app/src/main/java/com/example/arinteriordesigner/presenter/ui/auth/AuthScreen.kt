@@ -1,4 +1,8 @@
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
@@ -51,8 +55,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.arinteriordesigner.R
 import com.example.arinteriordesigner.core.utils.Route
 import com.example.arinteriordesigner.domain.viewmodel.AuthViewModel
+import com.facebook.login.LoginManager
 
 
+@SuppressLint("ContextCastToActivity")
 @Composable
 @PreviewScreenSizes
 fun AuthScreen(
@@ -60,17 +66,23 @@ fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val activity = LocalContext.current as Activity
     val isLoginSuccess by viewModel.isLoginSuccess.collectAsState()
     val message by viewModel.message.collectAsState()
 
     LaunchedEffect(isLoginSuccess) {
         if (isLoginSuccess) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             navController.navigate(Route.HOME) {
                 popUpTo(Route.AUTH) {
                     inclusive = true
                 }
             }
+        }
+    }
+
+    LaunchedEffect(message) {
+        if (message.isNotEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -181,7 +193,9 @@ fun AuthScreen(
                     icon = R.drawable.icon_google,
                 )
                 LoginButton(
-                    onClick = {},
+                    onClick = {
+                        viewModel.signInWithFacebook(activity)
+                    },
                     backgroundColor = R.color.teal_3,
                     text = "Continue with Facebook",
                     icon = R.drawable.icon_facebook,
