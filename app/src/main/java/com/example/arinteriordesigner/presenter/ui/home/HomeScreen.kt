@@ -10,10 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 @Preview()
 fun HomeScreen() {
+    val user = FirebaseAuth.getInstance().currentUser
+
     MaterialTheme {
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -21,7 +24,7 @@ fun HomeScreen() {
             Box(
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Home page", color = Color.Red)
+                Text(text = "Welcome " + user?.displayName, color = Color.Red)
             }
         }
     }

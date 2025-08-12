@@ -19,8 +19,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    //private val callbackManager = CallbackManager.Factory.create()
-
     @Inject
     lateinit var authRepo: AuthRepository
 
@@ -30,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyAppTheme {
-                AppNavGraph()
+                AppNavGraph(context = this)
             }
         }
     }
