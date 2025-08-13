@@ -128,17 +128,13 @@ fun AuthContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 LoginButton(
-                    onClick = {
-                        onGoogleLogin
-                    },
+                    onClick = onGoogleLogin,
                     backgroundColor = R.color.white,
                     text = "Continue with Google",
                     icon = R.drawable.icon_google,
                 )
                 LoginButton(
-                    onClick = {
-                        onFacebookLogin
-                    },
+                    onClick = onFacebookLogin,
                     backgroundColor = R.color.teal_3,
                     text = "Continue with Facebook",
                     icon = R.drawable.icon_facebook,

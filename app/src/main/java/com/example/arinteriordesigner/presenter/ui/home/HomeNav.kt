@@ -6,5 +6,5 @@ import com.example.arinteriordesigner.core.base.navigateScreen
 import com.example.arinteriordesigner.core.utils.Route
 
 fun NavGraphBuilder.homeNav(controller: NavHostController) {
-    navigateScreen(route = Route.HOME, content = { HomeScreen() })
+    navigateScreen(route = Route.HOME, content = { HomeScreen(controller) })
 }

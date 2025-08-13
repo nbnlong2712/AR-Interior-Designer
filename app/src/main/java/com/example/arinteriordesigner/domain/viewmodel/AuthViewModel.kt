@@ -8,12 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arinteriordesigner.domain.repository.AuthRepository
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +30,6 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepository) : 
     private val firebaseAuth = FirebaseAuth.getInstance()
 
     private val _user = MutableStateFlow<FirebaseUser?>(null)
-    val user: StateFlow<FirebaseUser?> get() = _user
 
     private val _message = MutableStateFlow<String>("")
     val message: MutableStateFlow<String> get() = _message
@@ -71,34 +65,6 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepository) : 
                 }
             }
         }
-        //setupFacebookLoginCallback()
-    }
-
-    private fun setupFacebookLoginCallback() {
-        LoginManager.getInstance().registerCallback(
-            callbackManager,
-            object : FacebookCallback<LoginResult> {
-                override fun onSuccess(result: LoginResult) {
-                    val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
-                    firebaseAuthWithCredential(credential)
-                }
-
-                override fun onCancel() {
-                    viewModelScope.launch {
-                        _message.emit("Đăng nhập Facebook đã bị hủy")
-                        _isLoginSuccess.emit(false)
-                        Log.e("auth-with-credential-failed", "uqgefiaskbvkua")
-                    }
-                }
-
-                override fun onError(error: FacebookException) {
-                    viewModelScope.launch {
-                        _message.emit("Lỗi đăng nhập Facebook: ${error.message}")
-                        _isLoginSuccess.emit(false)
-                        Log.e("facebook-login-failed", error.message ?: "")
-                    }
-                }
-            })
     }
 
     private fun firebaseAuthWithCredential(credential: AuthCredential) {
@@ -133,6 +99,7 @@ class AuthViewModel @Inject constructor(private val authRepo: AuthRepository) : 
     }
 
     fun signInWithGoogle(context: Context) {
+        Log.e("Hehehehehe", "Hahahaha")
         viewModelScope.launch {
             val tokenResult = authRepo.getGoogleIdToken(context)
             tokenResult.fold(
