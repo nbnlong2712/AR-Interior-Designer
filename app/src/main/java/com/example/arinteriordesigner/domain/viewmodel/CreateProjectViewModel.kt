@@ -29,13 +29,14 @@ class CreateProjectViewModel @Inject constructor(
         saving = true
         viewModelScope.launch {
             try {
-                projectRepository.insert(
+                projectRepository.upsert(
                     ProjectModel(
                         UUID.randomUUID().toString(),
                         name,
-                        description,
-                        "hahahaha",
-                        System.currentTimeMillis()
+                        System.currentTimeMillis(),
+                        System.currentTimeMillis(),
+                        "",
+                        emptyList()
                     )
                 )
                 onSave()

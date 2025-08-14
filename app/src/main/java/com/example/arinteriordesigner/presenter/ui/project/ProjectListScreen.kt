@@ -24,9 +24,10 @@ class ProjectListPreview : PreviewParameterProvider<ProjectModel> {
         ProjectModel(
             "001",
             "Scan your space with AR to capture the layout of your room",
-            "hahahaha",
-            "hahahaha",
-            123123123
+            123123123,
+            123123123,
+            "aefesdfsefed",
+            emptyList()
         ),
     )
 }
@@ -71,12 +72,6 @@ fun ProjectListScreen(
                     ) {
                         Column(Modifier.padding(16.dp)) {
                             Text(project.name, style = MaterialTheme.typography.titleMedium)
-                            project.description?.let {
-                                Text(
-                                    it,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
                         }
                     }
                 }

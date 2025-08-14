@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp") version "2.0.21-1.0.27"
     id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 android {
@@ -115,4 +116,11 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+
+}
+ksp {
+    arg("room.schemaLocation", file("schemas").path)
+    arg("room.incremental", "true")
+    arg("room.generateKotlin", "true")
 }

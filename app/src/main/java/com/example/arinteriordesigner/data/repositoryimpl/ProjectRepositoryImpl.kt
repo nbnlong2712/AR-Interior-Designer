@@ -22,39 +22,21 @@ class ProjectRepositoryImpl @Inject constructor(val projectDao: ProjectDao) : Pr
         }
     }
 
-    override suspend fun insert(project: ProjectModel) {
+    override suspend fun upsert(project: ProjectModel) {
         val now = System.currentTimeMillis()
-        projectDao.insert(
+        projectDao.upsert(
             ProjectEntity(
-                uid = project.id,
+                id = project.id,
                 name = project.name,
-                description = project.description,
                 createdAt = now,
                 updatedAt = now,
-                thumbnailUri = project.thumbnailUri,
-                scanId = null,
-                lastOpenedAt = now
+                "",
+                anchors = emptyList()
             )
         )
     }
 
     override suspend fun delete(id: String) {
         projectDao.delete(id)
-    }
-
-    override suspend fun update(project: ProjectModel) {
-        val now = System.currentTimeMillis()
-        projectDao.update(
-            ProjectEntity(
-                uid = project.id,
-                name = project.name,
-                description = project.description,
-                createdAt = now,
-                updatedAt = now,
-                thumbnailUri = project.thumbnailUri,
-                scanId = null,
-                lastOpenedAt = now
-            )
-        )
     }
 }
